@@ -56,18 +56,16 @@
     (shape-y figure)
     (get-size figure))
 )
-(defmethod draw :after ((figure shape))
-  (format t "Je suis le draw after~%")
-)
 
+(defmethod move-up :before ((figure shape))
+(draw figure))
 
-(defmethod draw :before ((figure shape))
-  (format t "Je suis le draw before~%")
-)
+(defmethod move-up :after ((figure shape))
+(draw figure))
+(defmethod move-up ((figure shape))
+   (setf (shape-x figure) (+ (shape-x figure) 1))
+ (setf (shape-y figure) (+ (shape-y figure) 1)))
 
-;(defmethod draw :around ((figure shape))
-;  (format t "Je suis le draw around~%")
-;)
 
 (defmethod set-size ((figure square) new-radius)
   (setf (get-size figure) new-radius))
@@ -98,14 +96,11 @@
   (setf scribble
       (list ;(make-instance 'rectangle :x 10 :y 20 :width 5 :height 6)
             ;(make-instance 'circle :x 15 :y 25 :radius 8)
-            ;(make-instance 'square :x 66 :y 66 :size 12)
+            ;(make-instance 'square :x 66 :y 66 :size 12)))
             (make-instance 'recircle :x 66 :y 66 :size 12 :radius 10)))
 
 (dolist (a-shape scribble)
- (draww a-shape)
- (draw a-shape)
- (r-move-to a-shape 100 100)
- (draw a-shape))
+ (move-up a-shape ))
 
 (setf a-rectangle (make-instance 'rectangle :x 0 :y 0 :width 15 :height 15))
 
